@@ -1,0 +1,27 @@
+{
+    "name": "origami/push",
+    "description": "Push Notifications Laravel 5 package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Papertank",
+            "email": "david@papertank.co.uk"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "~5.1",
+        "illuminate/contracts": "~5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Origami\\Push\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "minimum-stability": "stable"
+}
