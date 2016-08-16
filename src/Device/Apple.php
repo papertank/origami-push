@@ -34,8 +34,8 @@ class Apple implements DeviceInterface {
             //ENCODE PAYLOAD AS JSON
             $payload = json_encode($body);
 
-            if ( strlen($payload) > 256 ) {
-                throw new PushException('Apple push payload cannot exceed 256 bytes');
+            if ( strlen($payload) > 2048 ) {
+                throw new PushException('Apple push payload cannot exceed 2048 bytes');
             }
 
             //CREATE THE CONNECTION
