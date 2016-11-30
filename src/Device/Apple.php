@@ -45,7 +45,7 @@ class Apple implements DeviceInterface {
             stream_context_set_option($ctx, 'ssl', 'passphrase', $this->config['pwd']);
 
             //OPEN CONNECTION TO THE APNS SERVER
-            $fp = stream_socket_client('ssl://'.$this->config['host'].'', $err, $errstr, 2, STREAM_CLIENT_CONNECT, $ctx);
+            $fp = stream_socket_client('ssl://'.$this->config['host'].'', $err, $errstr, 30, STREAM_CLIENT_CONNECT, $ctx);
 
             if (!$fp) {
                 unset($fp);
