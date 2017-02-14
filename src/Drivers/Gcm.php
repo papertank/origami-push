@@ -27,12 +27,13 @@ class Gcm extends Driver {
             'registration_ids' => [
                 $device->getPushToken()
             ],
-            'data' => array_merge([
+            'data' => [
                 'message' => data_get($notification, 'message'),
                 'badge' => data_get($notification, 'badge'),
                 'sound' => data_get($notification, 'sound'),
                 'action_key' => data_get($notification, 'action'),
-            ], $notification->meta),
+                'data' => $notification->meta,
+            ],
         );
 
         $headers = array(
