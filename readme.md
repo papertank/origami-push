@@ -58,7 +58,7 @@ class Device extends Model implements PushDevice {
 }
 ```
 
-Next, you need to add two methods to get the service - either `apns` for iOS or `gcm` for Android - and the device identifier.
+Next, you need to add two methods to get the service - either `apns` for iOS, `gcm` for Google Cloud Messaging or `fcm` for Firebase Cloud Messaging - and the device identifier.
 
 ```php
 public function getPushService()
@@ -70,7 +70,7 @@ public function getPushService()
             return 'apns';
             break;
         case 'android':
-            return 'gcm';
+            return 'fcm';
             break;
         default:
             throw new \Exception('Unable to determine push service for ' . $this->make);
@@ -156,6 +156,10 @@ app('Origami\Push\PushManager')
 ## TODO
 
 - Improve readme / docs
+
+## CHANGELOG
+
+- 2.0.2 - Added FCM (Firebase Cloud Messaging) driver
 
 ## Versions
  - v2.* - Version 2 is a rewrite of the package to work with Laravel 5.3 notifications or standalone 

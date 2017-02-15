@@ -12,4 +12,8 @@ return [
         'key' => env('PUSH_GCM_KEY', ''),
     ],
 
+    'fcm' => [
+        'key' => env('PUSH_FCM_KEY', ''),
+    ],
+
 ];

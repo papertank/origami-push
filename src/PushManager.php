@@ -5,6 +5,7 @@ namespace Origami\Push;
 use Exception;
 use Illuminate\Support\Manager;
 use Origami\Push\Drivers\Apns;
+use Origami\Push\Drivers\Fcm;
 use Origami\Push\Drivers\Gcm;
 
 class PushManager extends Manager {
@@ -21,6 +22,13 @@ class PushManager extends Manager {
     {
         return new Gcm(
             $this->app['config']['push.gcm']
+        );
+    }
+
+    protected function createFcmDriver()
+    {
+        return new Fcm(
+            $this->app['config']['push.fcm']
         );
     }
 
