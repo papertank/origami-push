@@ -2,7 +2,7 @@
 
 namespace Origami\Push;
 
-use Origami\Push\Contracts\Device;
+use Origami\Push\Contracts\Device as DeviceContract;
 
 class Device implements DeviceContract {
 
