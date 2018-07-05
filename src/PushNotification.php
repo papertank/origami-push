@@ -99,4 +99,15 @@ class PushNotification
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return [
+            'message' => $this->message,
+            'badge' => $this->badge,
+            'sound' => $this->sound,
+            'action' => $this->action,
+            'meta' => $this->meta,
+        ];
+    }
 }

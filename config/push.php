@@ -1,6 +1,10 @@
 <?php
 return [
 
+    'enabled' => env('PUSH_ENABLED', true),
+
+    'log' => env('PUSH_LOG', false),
+
     'apns' => [
         'environment' => \Origami\Push\Drivers\Apns::SANDBOX,
         'certificate' => env('PUSH_APNS_CERTIFICATE', storage_path('certificates/push.pem')),
