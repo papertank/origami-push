@@ -8,7 +8,8 @@ use Origami\Push\Contracts\Device;
 use Origami\Push\PushNotification;
 use Illuminate\Support\Facades\Log;
 
-class Apns extends Driver {
+class Apns extends Driver
+{
 
     /**
      * @var array
@@ -28,7 +29,7 @@ class Apns extends Driver {
         $this->config = $config;
         $this->environment = $environment;
 
-        if ( is_null($this->environment) ) {
+        if (is_null($this->environment)) {
             $this->environment = app()->environment('production') ? self::PRODUCTION : self::SANDBOX;
         }
     }
@@ -48,10 +49,14 @@ class Apns extends Driver {
                 'extra'	=> data_get($notification, 'meta', []),
             );
 
+            if ($badge = data_get($notification, 'badge')) {
+                $body['aps']['badge'] = $badge;
+            }
+
             //ENCODE PAYLOAD AS JSON
             $payload = json_encode($body);
 
-            if ( strlen($payload) > 2048 ) {
+            if (strlen($payload) > 2048) {
                 throw new Exception('Apple push payload cannot exceed 2048 bytes');
             }
 
@@ -59,21 +64,21 @@ class Apns extends Driver {
             $passphrase = array_get($this->config, 'passphrase');
             $cafile = array_get($this->config, 'cafile');
 
-            if ( empty($certificate) ) {
+            if (empty($certificate)) {
                 throw new Exception('The certificate and/or passphrase for APNS is not set in the config');
             }
 
-            if ( ! file_exists($certificate) ) {
+            if (! file_exists($certificate)) {
                 throw new Exception('The certificate path does not exist');
             }
 
             //CREATE THE CONNECTION
             $ctx = stream_context_create();
             stream_context_set_option($ctx, 'ssl', 'local_cert', $certificate);
-            if ( $passphrase ) {
+            if ($passphrase) {
                 stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
             }
-            if ( $cafile ) {
+            if ($cafile) {
                 stream_context_set_option($ctx, 'ssl', 'cafile', $cafile);
             }
 
@@ -97,7 +102,7 @@ class Apns extends Driver {
             //SEND TO THE SERVER
             $result = fwrite($fp, $msg, strlen($msg));
 
-            if ( ! $result ) {
+            if (! $result) {
                 Log::debug('APSN Message not delivered', $body);
             }
 
@@ -106,9 +111,8 @@ class Apns extends Driver {
             unset($fp);
 
             return $result;
-
-        } catch ( Exception $e ) {
-            if ( $fp ) {
+        } catch (Exception $e) {
+            if ($fp) {
                 fclose($fp);
                 unset($fp);
             }
@@ -119,7 +123,7 @@ class Apns extends Driver {
 
     private function getEnvironmentHost()
     {
-        switch ( $this->environment ) {
+        switch ($this->environment) {
             case self::SANDBOX:
                 return 'gateway.sandbox.push.apple.com:2195';
                 break;
@@ -130,5 +134,4 @@ class Apns extends Driver {
                 throw new Exception('Invalid APNS environment: '.$this->environment);
         }
     }
-
 }
