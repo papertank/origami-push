@@ -21,6 +21,11 @@
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Origami\\Push\\PushServiceProvider"
+            ]
         }
     },
     "minimum-stability": "stable"
