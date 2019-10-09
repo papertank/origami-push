@@ -4,13 +4,13 @@ namespace Origami\Push\Drivers;
 
 use Exception;
 use Origami\Push\Driver;
+use Illuminate\Support\Arr;
 use Origami\Push\Contracts\Device;
 use Origami\Push\PushNotification;
 use Illuminate\Support\Facades\Log;
 
 class Apns extends Driver
 {
-
     /**
      * @var array
      */
@@ -41,13 +41,12 @@ class Apns extends Driver
         $fp = null;
 
         try {
-
             //CREATE THE PAYLOAD BODY Create the payload body
-            $body['aps'] = array(
+            $body['aps'] = [
                 'alert' => data_get($notification, 'message'),
                 'sound' => data_get($notification, 'sound', 'default'),
-                'extra'	=> data_get($notification, 'meta', []),
-            );
+                'extra' => data_get($notification, 'meta', []),
+            ];
 
             if ($badge = data_get($notification, 'badge')) {
                 $body['aps']['badge'] = $badge;
@@ -60,15 +59,15 @@ class Apns extends Driver
                 throw new Exception('Apple push payload cannot exceed 2048 bytes');
             }
 
-            $certificate = array_get($this->config, 'certificate');
-            $passphrase = array_get($this->config, 'passphrase');
-            $cafile = array_get($this->config, 'cafile');
+            $certificate = Arr::get($this->config, 'certificate');
+            $passphrase = Arr::get($this->config, 'passphrase');
+            $cafile = Arr::get($this->config, 'cafile');
 
             if (empty($certificate)) {
                 throw new Exception('The certificate and/or passphrase for APNS is not set in the config');
             }
 
-            if (! file_exists($certificate)) {
+            if (!file_exists($certificate)) {
                 throw new Exception('The certificate path does not exist');
             }
 
@@ -83,7 +82,7 @@ class Apns extends Driver
             }
 
             //OPEN CONNECTION TO THE APNS SERVER
-            $fp = stream_socket_client('ssl://'.$this->getEnvironmentHost(), $err, $errstr, 30, STREAM_CLIENT_CONNECT, $ctx);
+            $fp = stream_socket_client('ssl://' . $this->getEnvironmentHost(), $err, $errstr, 30, STREAM_CLIENT_CONNECT, $ctx);
 
             if (!$fp) {
                 unset($fp);
@@ -102,7 +101,7 @@ class Apns extends Driver
             //SEND TO THE SERVER
             $result = fwrite($fp, $msg, strlen($msg));
 
-            if (! $result) {
+            if (!$result) {
                 Log::debug('APSN Message not delivered', $body);
             }
 
@@ -131,7 +130,7 @@ class Apns extends Driver
                 return 'gateway.push.apple.com:2195';
                 break;
             default:
-                throw new Exception('Invalid APNS environment: '.$this->environment);
+                throw new Exception('Invalid APNS environment: ' . $this->environment);
         }
     }
 }

@@ -4,11 +4,12 @@ namespace Origami\Push\Drivers;
 
 use Exception;
 use Origami\Push\Driver;
+use Illuminate\Support\Arr;
 use Origami\Push\Contracts\Device;
 use Origami\Push\PushNotification;
 
-class Fcm extends Driver {
-
+class Fcm extends Driver
+{
     /**
      * @var array
      */
@@ -21,7 +22,7 @@ class Fcm extends Driver {
 
     public function send(Device $device, PushNotification $notification)
     {
-        $url = 'https://'.$this->getEnvironmentHost();
+        $url = 'https://' . $this->getEnvironmentHost();
 
         $fields = [
             'to' => $device->getPushToken(),
@@ -35,7 +36,7 @@ class Fcm extends Driver {
         ];
 
         $headers = [
-            'Authorization: key='.array_get($this->config, 'key'),
+            'Authorization: key=' . Arr::get($this->config, 'key'),
             'Content-Type: application/json'
         ];
         // Open connection
@@ -56,8 +57,8 @@ class Fcm extends Driver {
         // Execute post
         $result = curl_exec($ch);
 
-        if ($result === FALSE) {
-            throw new Exception('Push failed: '.curl_error($ch));
+        if ($result === false) {
+            throw new Exception('Push failed: ' . curl_error($ch));
         }
 
         // Close connection
@@ -70,5 +71,4 @@ class Fcm extends Driver {
     {
         return 'fcm.googleapis.com/fcm/send';
     }
-
 }
