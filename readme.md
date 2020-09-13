@@ -1,8 +1,8 @@
 # Origami Push - Laravel Push Notifications
 
-This package adds a push notification channel for notifications in Laravel 5.3 or greater projects.
+This package adds a push notification channel for notifications in Laravel 6 or greater projects.
 
-For more on notification channels, visit [https://laravel.com/docs/5.3/notifications](https://laravel.com/docs/5.3/notifications)
+For more on notification channels, visit [https://laravel.com/docs/8.x/notifications](https://laravel.com/docs/8.x/notifications)
 
 ## Installation
 
@@ -14,21 +14,7 @@ composer require origami/push
 
 ### Requirements
 
-This package is designed to work with Laravel >= 5.3 currently.
-
-### Service Provider
-
-As standard, there is a Laravel 5 is a service provider you can make use of to automatically prepare the bindings.
-
-```php
-
-// app/config/app.php
-
-‘providers’ => [
-    ...
-    Origami\Api\ApiServiceProvider::class
-];
-```
+This package is designed to work with Laravel >= 6.
 
 ### Configuration
 
@@ -85,7 +71,7 @@ public function getPushToken()
 
 ### User Notifiable Devices
 
-In Laravel 5.3, you're most likely to send a push notification to your users. See the [Laravel Docs](https://laravel.com/docs/5.3/notifications) for more information. 
+In a Laravel project, you're most likely to send a push notification to your users. See the [Laravel Docs](https://laravel.com/docs/8.x/notifications) for more information. 
 
 To get your User's devices, assuming you are using an Eloquent model above, you would just add a `routeNotificationForPush` method to your Eloquent model.
 
@@ -157,11 +143,8 @@ app('Origami\Push\PushManager')
 
 - Improve readme / docs
 
-## CHANGELOG
-
-- 2.0.2 - Added FCM (Firebase Cloud Messaging) driver
-
 ## Versions
+ - v3.* - Version 2 bumpes the Laravel support to include 6, 7 and 8 projects. Laravel 5.x dropped.
  - v2.* - Version 2 is a rewrite of the package to work with Laravel 5.3 notifications or standalone 
  - v1.-* - Version 1 did not integrate with the notifications service of Laravel
 

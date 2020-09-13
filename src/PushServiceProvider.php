@@ -22,7 +22,7 @@ class PushServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config' => config_path(),
+            __DIR__.'/../config/push.php' => config_path('config.php'),
         ], 'config');
     }
 
@@ -32,14 +32,15 @@ class PushServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/push.php', 'push'
+            __DIR__.'/../config/push.php',
+            'push'
         );
 
         $this->app->singleton(PushManager::class, function ($app) {
             return new PushManager($app);
         });
 
-        Notification::extend('push', function() {
+        Notification::extend('push', function () {
             return new PushChannel(
                 app(PushManager::class)
             );

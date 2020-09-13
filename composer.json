@@ -1,6 +1,6 @@
 {
     "name": "origami/push",
-    "description": "Push Notifications Laravel 5 package",
+    "description": "Push Notifications Laravel package",
     "license": "MIT",
     "authors": [
         {
@@ -9,10 +9,10 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "~5.4|^6.0",
-        "illuminate/notifications": "~5.4|^6.0",
-        "illuminate/contracts": "~5.4|^6.0"
+        "php": "^7.2",
+        "illuminate/contracts": "^6.0|^7.0|^8.0",
+        "illuminate/notifications": "^6.0|^7.0|^8.0",
+        "illuminate/support": "^6.0|^7.0|^8.0"
     },
     "autoload": {
         "psr-4": {
@@ -20,9 +20,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.1-dev"
-        },
         "laravel": {
             "providers": [
                 "Origami\\Push\\PushServiceProvider"
