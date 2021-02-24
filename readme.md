@@ -30,7 +30,7 @@ This will add a new configuration file to: `config/push.php`.
 
 ### Device Eloquent Model
 
-You will most likely be storing devices in your database using an Eloquent model, e.g. `App\Device`. 
+You will most likely be storing devices in your database using an Eloquent model, e.g. `App\Device`.
 
 To have that work with this package, you just need to make sure it implements the `Origami\Push\Contracts\Device` interface.
 
@@ -40,7 +40,7 @@ namespace App;
 use Origami\Push\Contracts\Device as PushDevice;
 
 class Device extends Model implements PushDevice {
-    
+
 }
 ```
 
@@ -71,7 +71,7 @@ public function getPushToken()
 
 ### User Notifiable Devices
 
-In a Laravel project, you're most likely to send a push notification to your users. See the [Laravel Docs](https://laravel.com/docs/8.x/notifications) for more information. 
+In a Laravel project, you're most likely to send a push notification to your users. See the [Laravel Docs](https://laravel.com/docs/8.x/notifications) for more information.
 
 To get your User's devices, assuming you are using an Eloquent model above, you would just add a `routeNotificationForPush` method to your Eloquent model.
 
@@ -127,7 +127,7 @@ class UserJoined extends Notification implements ShouldQueue
 ### Standalone
 
 ```php
-<?php 
+<?php
 
 $device = new Origami\Push\Device('apns', '12346...');
 
@@ -145,11 +145,11 @@ app('Origami\Push\PushManager')
 
 ## Versions
  - v3.* - Version 2 bumpes the Laravel support to include 6, 7 and 8 projects. Laravel 5.x dropped.
- - v2.* - Version 2 is a rewrite of the package to work with Laravel 5.3 notifications or standalone 
+ - v2.* - Version 2 is a rewrite of the package to work with Laravel 5.3 notifications or standalone
  - v1.-* - Version 1 did not integrate with the notifications service of Laravel
 
 ## Author
-[Papertank Limited](http://papertank.co.uk)
+[Papertank Limited](http://papertank.com)
 
 ## License
 [View the license](http://github.com/papertank/origami-push/blob/master/LICENSE)

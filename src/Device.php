@@ -6,6 +6,9 @@ use Origami\Push\Contracts\Device as DeviceContract;
 
 class Device implements DeviceContract {
 
+    protected $service;
+    protected $token;
+
 	public function __construct($service, $token)
 	{
 		$this->service = $service;

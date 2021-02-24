@@ -2,8 +2,11 @@
 
 namespace Origami\Push;
 
+use Pushok\Client;
+use Illuminate\Support\Arr;
 use Origami\Push\PushChannel;
 use Origami\Push\PushManager;
+use Pushok\AuthProvider\Token;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Notification;
 
@@ -22,7 +25,7 @@ class PushServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/push.php' => config_path('config.php'),
+            __DIR__.'/../config/push.php' => $this->app->configPath('config.php'),
         ], 'config');
     }
 
@@ -42,8 +45,19 @@ class PushServiceProvider extends ServiceProvider
 
         Notification::extend('push', function () {
             return new PushChannel(
-                app(PushManager::class)
+                $this->app->make(PushManager::class),
+                $this->app['config']->get('push')
             );
+        });
+
+        $this->app->bind(Token::class, function ($app) {
+            return Token::create(Arr::except($app['config']['push.apns'], 'environment'));
+        });
+
+        $this->app->bind(Client::class, function ($app) {
+            $environment = $app['config']['push.apns.environment'] ?: \Origami\Push\Drivers\Apns::PRODUCTION;
+            $production = ($environment == \Origami\Push\Drivers\Apns::PRODUCTION);
+            return new Client($app->make(Token::class), $production);
         });
     }
 }

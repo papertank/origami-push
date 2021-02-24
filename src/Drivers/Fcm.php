@@ -3,10 +3,11 @@
 namespace Origami\Push\Drivers;
 
 use Exception;
-use Origami\Push\Driver;
 use Illuminate\Support\Arr;
 use Origami\Push\Contracts\Device;
 use Origami\Push\PushNotification;
+use Origami\Push\Contracts\Driver;
+use Illuminate\Support\Collection;
 
 class Fcm extends Driver
 {
@@ -18,6 +19,13 @@ class Fcm extends Driver
     public function __construct(array $config = [])
     {
         $this->config = $config;
+    }
+
+    public function sendMultiple(Collection $devices, PushNotification $notification)
+    {
+        foreach ( $devices as $device ) {
+            $this->send($device, $notification);
+        }
     }
 
     public function send(Device $device, PushNotification $notification)

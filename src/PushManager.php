@@ -3,32 +3,34 @@
 namespace Origami\Push;
 
 use Exception;
-use Illuminate\Support\Manager;
-use Origami\Push\Drivers\Apns;
+use Pushok\Client;
 use Origami\Push\Drivers\Fcm;
 use Origami\Push\Drivers\Gcm;
+use Origami\Push\Drivers\Apns;
+use Illuminate\Support\Manager;
+use Illuminate\Contracts\Events\Dispatcher;
 
-class PushManager extends Manager {
-
+class PushManager extends Manager
+{
     protected function createApnsDriver()
     {
         return new Apns(
-            $this->app['config']['push.apns'],
-            $this->app['config']['push.apns.environment']
+            $this->container->make(Client::class),
+            $this->container->make(Dispatcher::class)
         );
     }
 
     protected function createGcmDriver()
     {
         return new Gcm(
-            $this->app['config']['push.gcm']
+            $this->container['config']['push.gcm']
         );
     }
 
     protected function createFcmDriver()
     {
         return new Fcm(
-            $this->app['config']['push.fcm']
+            $this->container['config']['push.fcm']
         );
     }
 
@@ -42,5 +44,4 @@ class PushManager extends Manager {
     {
         throw new Exception('No default push driver');
     }
-
 }
