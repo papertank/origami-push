@@ -9,7 +9,7 @@ return [
         'environment' => env('PUSH_APNS_ENV', 'production') == 'production' ? \Origami\Push\Drivers\Apns::PRODUCTION : \Origami\Push\Drivers\Apns::SANDBOX,
         'key_id' => env('PUSH_APNS_KEY_ID'),
         'team_id' => env('PUSH_APNS_TEAM_ID'),
-        'app_bundle' => env('PUSH_APNS_APP_BUNDLE'),
+        'app_bundle_id' => env('PUSH_APNS_APP_BUNDLE'),
         'private_key_path' => env('PUSH_APNS_PRIVATE_KEY', storage_path('certificates/apns.p8')),
         'private_key_secret' => env('PUSH_APNS_PRIVATE_KEY_SECRET'),
     ],

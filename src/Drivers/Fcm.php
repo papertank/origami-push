@@ -8,6 +8,7 @@ use Origami\Push\Contracts\Device;
 use Origami\Push\PushNotification;
 use Origami\Push\Contracts\Driver;
 use Illuminate\Support\Collection;
+use Origami\Push\PushNotificationResponse;
 
 class Fcm extends Driver
 {
@@ -21,26 +22,43 @@ class Fcm extends Driver
         $this->config = $config;
     }
 
+    /**
+     * @param  \Illuminate\Support\Collection  $devices
+     * @param  \Origami\Push\PushNotification  $notification
+     *
+     * @return array
+     */
     public function sendMultiple(Collection $devices, PushNotification $notification)
     {
+        $responses = [];
+
         foreach ( $devices as $device ) {
-            $this->send($device, $notification);
+            $responses[] = $this->send($device, $notification);
         }
+
+        return $responses;
     }
 
+    /**
+     * @param  \Origami\Push\Contracts\Device  $device
+     * @param  \Origami\Push\PushNotification  $notification
+     *
+     * @return \Origami\Push\PushNotificationResponse
+     */
     public function send(Device $device, PushNotification $notification)
     {
         $url = 'https://' . $this->getEnvironmentHost();
 
         $fields = [
             'to' => $device->getPushToken(),
-            'data' => [
-                'message' => data_get($notification, 'message'),
-                'badge' => data_get($notification, 'badge'),
-                'sound' => data_get($notification, 'sound'),
-                'action_key' => data_get($notification, 'action'),
-                'data' => $notification->meta,
-            ],
+            'data' => array_filter([
+                'title' => $notification->getTitle(),
+                'message' => $notification->getBody(),
+                'badge' => $notification->getBadge(),
+                'sound' => $notification->getSound(),
+                'action_key' => $notification->getCategory(),
+                'data' => $notification->getMeta(),
+            ]),
         ];
 
         $headers = [
@@ -66,13 +84,13 @@ class Fcm extends Driver
         $result = curl_exec($ch);
 
         if ($result === false) {
-            throw new Exception('Push failed: ' . curl_error($ch));
+            return PushNotificationResponse::error([], curl_error($ch));
         }
 
         // Close connection
         curl_close($ch);
 
-        return true;
+        return PushNotificationResponse::success();
     }
 
     private function getEnvironmentHost()

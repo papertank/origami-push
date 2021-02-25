@@ -8,6 +8,7 @@ use Origami\Push\PushChannel;
 use Origami\Push\PushManager;
 use Pushok\AuthProvider\Token;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Notification;
 
 class PushServiceProvider extends ServiceProvider
@@ -46,6 +47,7 @@ class PushServiceProvider extends ServiceProvider
         Notification::extend('push', function () {
             return new PushChannel(
                 $this->app->make(PushManager::class),
+                $this->app->make(Dispatcher::class),
                 $this->app['config']->get('push')
             );
         });

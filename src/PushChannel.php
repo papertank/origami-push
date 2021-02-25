@@ -9,18 +9,31 @@ use Illuminate\Support\Collection;
 use Origami\Push\Contracts\Driver;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Notifications\Events\NotificationFailed;
 
 class PushChannel
 {
     /**
      * @var \Origami\Push\PushManager
      */
-    private $manager;
+    protected $manager;
 
-    public function __construct(PushManager $manager, array $config)
+    /**
+     * @var \Illuminate\Contracts\Events\Dispatcher;
+     */
+    protected $events;
+
+    /**
+     * @var array
+     */
+    protected $config;
+
+    public function __construct(PushManager $manager, Dispatcher $events, array $config)
     {
         $this->manager = $manager;
+        $this->events = $events;
         $this->config = $config;
     }
 
@@ -46,20 +59,24 @@ class PushChannel
             $push = new PushNotification($message);
         }
 
-        $services = $devices->groupBy(function($device) {
+        $services = $devices->groupBy(function ($device) {
             return $device->getPushService();
         });
 
         foreach ($services as $service => $devices) {
             $driver = $this->manager->driver($devices->first()->getPushService());
             $this->logNotifications($driver, $devices, $push);
-            $this->sendNotifications($driver, $devices, $push);
+            $this->dispatchEvents(
+                $notifiable,
+                $notification,
+                $this->sendNotifications($driver, $devices, $push)
+            );
         }
     }
 
     protected function sendNotification(Device $device, PushNotification $push)
     {
-        if (! Arr::get($this->config, 'push.enabled')) {
+        if (! Arr::get($this->config, 'enabled')) {
             return false;
         }
 
@@ -68,11 +85,30 @@ class PushChannel
 
     protected function sendNotifications(Driver $driver, Collection $devices, PushNotification $push)
     {
-        if (! Arr::get($this->config, 'push.enabled')) {
+        if (! Arr::get($this->config, 'enabled')) {
             return false;
         }
 
         return $driver->sendMultiple($devices, $push);
+    }
+
+    protected function dispatchEvents($notifiable, Notification $notification, $responses)
+    {
+        if ( ! $responses ) {
+            return;
+        }
+
+        if ( ! is_array($responses) ) {
+            $responses = [$responses];
+        }
+
+        foreach ( $responses as $response ) {
+            if ( $response->isError() ) {
+                $this->events->dispatch(new NotificationFailed($notifiable, $notification, static::class, array_merge($response->getData(), [
+                    'error' => $response->getError()
+                ])));
+            }
+        }
     }
 
     protected function logNotification(Device $device, PushNotification $push)
@@ -83,8 +119,8 @@ class PushChannel
 
     protected function logNotifications(Driver $driver, Collection $devices, PushNotification $push)
     {
-        if (Arr::get($this->config, 'push.log')) {
-            foreach ( $devices as $device ) {
+        if (Arr::get($this->config, 'log')) {
+            foreach ($devices as $device) {
                 $this->logNotification($device, $push);
             }
         }
@@ -103,7 +139,7 @@ class PushChannel
             return new Collection;
         }
 
-        if ( ! $devices instanceof Collection ) {
+        if (! $devices instanceof Collection) {
             $devices = new Collection($devices);
         }
 

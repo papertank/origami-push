@@ -6,108 +6,207 @@ class PushNotification
 {
 
     /**
-     *
      * @var string|null
      */
-    public $message;
+    protected $title;
 
     /**
-     *
      * @var string|null
      */
-    public $badge;
+    protected $subtitle;
 
     /**
-     *
      * @var string|null
      */
-    public $sound;
+    protected $body;
 
     /**
-     *
+     * @var int|null
+     */
+    protected $badge;
+
+    /**
      * @var string|null
      */
-    public $action;
+    protected $sound;
 
     /**
-     *
+     * @var string|null
+     */
+    protected $category;
+
+    /**
      * @var array
      */
-    public $meta = [];
+    protected $meta = [];
 
-    public function __construct($message = '')
+    /**
+     * @var array
+     */
+    protected $extra = [];
+
+    public function __construct($body = '')
     {
-        $this->message = '';
+        $this->body = $body;
+    }
+
+    public static function create()
+    {
+        return new self();
     }
 
     /**
-     *
-     * @param  string  $message
-     * @return $this
+     * @return string|null
      */
-    public function message($message)
+    public function getTitle()
     {
-        $this->message = $message;
+        return $this->title;
+    }
 
+    /**
+     * @param  string|null  $title
+     */
+    public function setTitle(string $title = null)
+    {
+        $this->title = $title;
         return $this;
     }
 
     /**
-     *
-     * @param  string  $badge
-     * @return $this
+     * @return string|null
      */
-    public function badge($badge)
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * @param  string|null  $subtitle
+     */
+    public function setSubtitle(string $subtitle = null)
+    {
+        $this->subtitle = $subtitle;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * @param  string|null  $body
+     */
+    public function setBody(string $body = null)
+    {
+        $this->body = $body;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getBadge()
+    {
+        return $this->badge;
+    }
+
+    /**
+     * @param  int|null  $badge
+     */
+    public function setBadge(int $badge = null)
     {
         $this->badge = $badge;
-
         return $this;
     }
 
     /**
-     *
-     * @param  string  $sound
-     * @return $this
+     * @return string|null
      */
-    public function sound($sound)
+    public function getSound()
+    {
+        return $this->sound;
+    }
+
+    /**
+     * @param  string|null  $sound
+     */
+    public function setSound(string $sound = null)
     {
         $this->sound = $sound;
-
         return $this;
     }
 
     /**
-     *
-     * @param  string  $action
-     * @return $this
+     * @return string|null
      */
-    public function action($action)
+    public function getCategory()
     {
-        $this->action = $action;
+        return $this->category;
+    }
 
+    /**
+     * @param  string|null  $category
+     */
+    public function setCategory(string $category = null)
+    {
+        $this->category = $category;
         return $this;
     }
 
     /**
-     *
-     * @param  array  $meta
-     * @return $this
+     * @return array
      */
-    public function meta(array $meta)
+    public function getMeta()
+    {
+        return $this->meta;
+    }
+
+    /**
+     * @param  array  $meta
+     */
+    public function setMeta(array $meta)
     {
         $this->meta = $meta;
-
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtra()
+    {
+        return $this->extra;
+    }
+
+    /**
+     * @param  array  $extra
+     */
+    public function setExtra(array $extra)
+    {
+        $this->extra = $extra;
+        return $this;
+    }
+
+    public function toJson()
+    {
+        return json_encode($this->toArray());
     }
 
     public function toArray()
     {
         return [
-            'message' => $this->message,
+            'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'body' => $this->body,
             'badge' => $this->badge,
             'sound' => $this->sound,
-            'action' => $this->action,
+            'category' => $this->category,
             'meta' => $this->meta,
+            'extra' => $this->extra,
         ];
     }
 }

@@ -2,12 +2,27 @@
 
 namespace Origami\Push\Contracts;
 
-use Origami\Push\PushNotification;
+use Origami\Push\PushNotificationResponse;
 use Illuminate\Support\Collection;
+use Origami\Push\PushNotification;
 
-abstract class Driver {
+abstract class Driver
+{
 
-    public abstract function send(Device $device, PushNotification $notification);
-    public abstract function sendMultiple(Collection $devices, PushNotification $notification);
+    /**
+     *
+     * @param Device $device
+     * @param PushNotification $notification
+     *
+     * @return PushNotificationResponse
+     */
+    abstract public function send(Device $device, PushNotification $notification);
 
+    /**
+     *
+     * @param Collection $devices
+     * @param PushNotification $notification
+     * @return array
+     */
+    abstract public function sendMultiple(Collection $devices, PushNotification $notification);
 }

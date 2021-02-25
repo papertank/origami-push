@@ -15,8 +15,7 @@ class PushManager extends Manager
     protected function createApnsDriver()
     {
         return new Apns(
-            $this->container->make(Client::class),
-            $this->container->make(Dispatcher::class)
+            $this->container->make(Client::class)
         );
     }
 
