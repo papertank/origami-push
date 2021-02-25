@@ -56,6 +56,33 @@ class PushNotification
     }
 
     /**
+     * @alias setBody
+     * @deprecated 4.0
+     */
+    public function message($body)
+    {
+        return $this->setBody($body);
+    }
+
+    /**
+     * @alias setBadge
+     * @deprecated 4.0
+     */
+    public function badge($badge)
+    {
+        return $this->setBadge($badge);
+    }
+
+    /**
+     * @alias setMeta
+     * @deprecated 4.0
+     */
+    public function meta($badge)
+    {
+        return $this->setMeta($badge);
+    }
+
+    /**
      * @return string|null
      */
     public function getTitle()
