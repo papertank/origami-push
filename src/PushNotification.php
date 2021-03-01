@@ -2,6 +2,8 @@
 
 namespace Origami\Push;
 
+use Illuminate\Support\Arr;
+
 class PushNotification
 {
 
@@ -216,6 +218,17 @@ class PushNotification
     {
         $this->extra = $extra;
         return $this;
+    }
+
+    /**
+     * @param $key
+     * @param  null  $fallback
+     *
+     * @return mixed|null
+     */
+    public function getExtraValue($key, $fallback = null)
+    {
+        return Arr::get($this->extra, $key, $fallback);
     }
 
     public function toJson()

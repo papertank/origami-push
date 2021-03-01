@@ -57,8 +57,7 @@ class PushServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(Client::class, function ($app) {
-            $environment = $app['config']['push.apns.environment'] ?: \Origami\Push\Drivers\Apns::PRODUCTION;
-            $production = ($environment == \Origami\Push\Drivers\Apns::PRODUCTION);
+            $production = $this->app['config']['push.apns.environment'] == \Origami\Push\Drivers\Apns::PRODUCTION;
             return new Client($app->make(Token::class), $production);
         });
     }

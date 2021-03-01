@@ -14,12 +14,9 @@ return [
         'private_key_secret' => env('PUSH_APNS_PRIVATE_KEY_SECRET'),
     ],
 
-    'gcm' => [
-        'key' => env('PUSH_GCM_KEY', ''),
-    ],
-
     'fcm' => [
         'key' => env('PUSH_FCM_KEY', ''),
+        'type' => \Origami\Push\Drivers\Fcm::NOTIFICATION,
     ],
 
 ];
