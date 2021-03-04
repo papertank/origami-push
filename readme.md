@@ -44,7 +44,7 @@ class Device extends Model implements PushDevice {
 }
 ```
 
-Next, you need to add two methods to get the service - either `apns` for iOS, `gcm` for Google Cloud Messaging or `fcm` for Firebase Cloud Messaging - and the device identifier.
+Next, you need to add two methods to get the service - either `apns` for iOS or `fcm` for Firebase Cloud Messaging - and the device identifier.
 
 ```php
 public function getPushService()
@@ -114,8 +114,9 @@ class UserJoined extends Notification implements ShouldQueue
     public function toPush($notifiable)
     {
         return (new PushNotification)
-                    ->message($this->user->name . ' just joined')
-                    ->meta([
+                    ->setTitle('New User')
+                    ->setBody($this->user->name . ' just joined')
+                    ->setExtra([
                         'event' => 'NewUser',
                         'user' => $this->user->id
                     ]);
@@ -132,7 +133,7 @@ class UserJoined extends Notification implements ShouldQueue
 $device = new Origami\Push\Device('apns', '12346...');
 
 $push = (new Origami\Push\PushNotification)
-        ->message('Testing, testing, 1, 2, 3.');
+        ->setBody('Testing, testing, 1, 2, 3.');
 
 app('Origami\Push\PushManager')
 		->driver($device->getPushService())
@@ -144,7 +145,8 @@ app('Origami\Push\PushManager')
 - Improve readme / docs
 
 ## Versions
- - v3.* - Version 2 bumpes the Laravel support to include 6, 7 and 8 projects. Laravel 5.x dropped.
+ - v4.* - Version 4 is a breaking change that updates the config and drivers for apns and fcm.
+ - v3.* - Version 3 bumpes the Laravel support to include 6, 7 and 8 projects. Laravel 5.x dropped.
  - v2.* - Version 2 is a rewrite of the package to work with Laravel 5.3 notifications or standalone
  - v1.-* - Version 1 did not integrate with the notifications service of Laravel
 
