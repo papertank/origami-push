@@ -23,7 +23,7 @@ After:
 $notification =  (new PushNotification)
     ->setBody('Friendly reminder: Your availability looks like it may need updating. Please ensure you keep your availability regularly updated.')
     ->setBadge(1)
-    ->setExtra([
+    ->setMeta([
         'event' => 'AvailabilityReminder',
     ]);
 ```

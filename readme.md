@@ -116,7 +116,7 @@ class UserJoined extends Notification implements ShouldQueue
         return (new PushNotification)
                     ->setTitle('New User')
                     ->setBody($this->user->name . ' just joined')
-                    ->setExtra([
+                    ->setMeta([
                         'event' => 'NewUser',
                         'user' => $this->user->id
                     ]);
