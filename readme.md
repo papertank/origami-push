@@ -26,7 +26,7 @@ php artisan vendor:publish --provider="Origami\Api\ApiServiceProvider"
 
 This will add a new configuration file to: `config/push.php`.
 
-### APNs
+### APNs
 
 Version 4 of this package uses [edamov/pushok](https://github.com/edamov/pushok) for the APNs transport and logic. You should add the following to your .env file to setup the required config, or see the edamov/pushok readme for Certificate (.pem) options.
 
