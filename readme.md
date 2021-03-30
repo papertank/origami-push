@@ -26,6 +26,21 @@ php artisan vendor:publish --provider="Origami\Api\ApiServiceProvider"
 
 This will add a new configuration file to: `config/push.php`.
 
+### APNs
+
+Version 4 of this package uses [edamov/pushok](https://github.com/edamov/pushok) for the APNs transport and logic. You should add the following to your .env file to setup the required config, or see the edamov/pushok readme for Certificate (.pem) options.
+
+The default private key location is `storage/certificates/apns.p8`
+
+```
+PUSH_APNS_ENV=production
+PUSH_APNS_KEY_ID=
+PUSH_APNS_TEAM_ID=
+PUSH_APNS_APP_BUNDLE=
+PUSH_APNS_PRIVATE_KEY=
+PUSH_APNS_PRIVATE_KEY_SECRET=
+```
+
 ## Usage
 
 ### Device Eloquent Model
@@ -146,7 +161,7 @@ app('Origami\Push\PushManager')
 
 ## Versions
  - v4.* - Version 4 is a breaking change that updates the config and drivers for apns and fcm.
- - v3.* - Version 3 bumpes the Laravel support to include 6, 7 and 8 projects. Laravel 5.x dropped.
+ - v3.* - Version 3 bumps the Laravel support to include 6, 7 and 8 projects. Laravel 5.x dropped.
  - v2.* - Version 2 is a rewrite of the package to work with Laravel 5.3 notifications or standalone
  - v1.-* - Version 1 did not integrate with the notifications service of Laravel
 

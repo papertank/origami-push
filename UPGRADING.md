@@ -27,3 +27,5 @@ $notification =  (new PushNotification)
         'event' => 'AvailabilityReminder',
     ]);
 ```
+
+For APNs, the meta attributes are now included outside of the apns key / namespace, and sit at the top-level.
