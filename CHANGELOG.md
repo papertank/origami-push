@@ -3,6 +3,8 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+
+## 4.1.0 - 2021-04-29
 - Added new Apns\ClientFactory to fetch / set cached Pushok\Client
 - Updated Apns driver to use new ClientFactory (fixes APNS ExpiredProviderToken errors using queue).
 
