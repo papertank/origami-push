@@ -3,6 +3,10 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+- Added new Apns\ClientFactory to fetch / set cached Pushok\Client
+- Updated Apns driver to use new ClientFactory (fixes APNS ExpiredProviderToken errors using queue).
+
+## 4.0.0
 - Updated apns driver to use edamov/pushok package for sending
 - Apns extra attributes now included outside 'aps'.
 - Updated apns config with pushok keys.

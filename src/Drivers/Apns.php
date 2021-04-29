@@ -12,30 +12,31 @@ use Origami\Push\PushNotification;
 use Origami\Push\Contracts\Driver;
 use Illuminate\Support\Collection;
 use Origami\Push\PushNotificationResponse;
+use Origami\Push\Drivers\Apns\ClientFactory;
 
 class Apns extends Driver
 {
-    /**
-     *
-     * @var \Pushok\Client
-     */
-    protected $client;
-
     const SANDBOX = 0;
     const PRODUCTION = 1;
+    /**
+     * @var \Origami\Push\Drivers\Apns\ClientFactory
+     */
+    protected $factory;
 
-    public function __construct(Client $client)
+    public function __construct(ClientFactory $factory)
     {
-        $this->client = $client;
+        $this->factory = $factory;
     }
 
     public function sendMultiple(Collection $devices, PushNotification $notification)
     {
+        $client = $this->factory->instance();
+
         foreach ($devices as $device) {
-            $this->client->addNotification($this->toApnsNotification($notification, $device->getPushToken()));
+            $client->addNotification($this->toApnsNotification($notification, $device->getPushToken()));
         }
 
-        $responses = $this->client->push();
+        $responses = $client->push();
 
         return array_map(function($response) {
             return $this->toPushNotificationResponse($response);
@@ -44,8 +45,10 @@ class Apns extends Driver
 
     public function send(Device $device, PushNotification $notification)
     {
-        $this->client->addNotification($this->toApnsNotification($notification, $device->getPushToken()));
-        $responses = $this->client->push();
+        $client = $this->factory->instance();
+
+        $client->addNotification($this->toApnsNotification($notification, $device->getPushToken()));
+        $responses = $client->push();
 
         return $this->toPushNotificationResponse(end($responses));
     }

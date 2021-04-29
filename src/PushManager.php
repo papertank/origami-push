@@ -6,13 +6,14 @@ use Exception;
 use Origami\Push\Drivers\Fcm;
 use Origami\Push\Drivers\Apns;
 use Illuminate\Support\Manager;
+use Origami\Push\Drivers\Apns\ClientFactory;
 
 class PushManager extends Manager
 {
     protected function createApnsDriver()
     {
         return new Apns(
-            $this->container->make(\Pushok\Client::class)
+            $this->container->make(ClientFactory::class)
         );
     }
 
