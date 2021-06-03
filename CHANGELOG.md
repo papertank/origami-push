@@ -3,6 +3,8 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+
+## 4.1.1 - 2021-06-03
 - Fixed issue with PushChannel notifiable / getDevices single device.
 
 ## 4.1.0 - 2021-04-29
