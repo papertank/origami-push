@@ -3,6 +3,7 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+- Fixed issue with PushChannel notifiable / getDevices single device.
 
 ## 4.1.0 - 2021-04-29
 - Added new Apns\ClientFactory to fetch / set cached Pushok\Client

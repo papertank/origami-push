@@ -94,16 +94,16 @@ class PushChannel
 
     protected function dispatchEvents($notifiable, Notification $notification, $responses)
     {
-        if ( ! $responses ) {
+        if (! $responses) {
             return;
         }
 
-        if ( ! is_array($responses) ) {
+        if (! is_array($responses)) {
             $responses = [$responses];
         }
 
-        foreach ( $responses as $response ) {
-            if ( $response->isError() ) {
+        foreach ($responses as $response) {
+            if ($response->isError()) {
                 $this->events->dispatch(new NotificationFailed($notifiable, $notification, static::class, array_merge($response->getData(), [
                     'error' => $response->getError()
                 ])));
@@ -140,7 +140,7 @@ class PushChannel
         }
 
         if (! $devices instanceof Collection) {
-            $devices = new Collection($devices);
+            $devices = new Collection(is_array($devices) ? $devices : [$devices]);
         }
 
         return $devices->filter(function ($device) {
