@@ -4,6 +4,9 @@ All notable changes will be documented in this file.
 
 ## Unreleased
 
+## 4.2.0 - 2022-05-13
+- Added Laravel 9.x support
+
 ## 4.1.1 - 2021-06-03
 - Fixed issue with PushChannel notifiable / getDevices single device.
 
