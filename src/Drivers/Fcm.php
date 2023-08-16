@@ -5,15 +5,16 @@ namespace Origami\Push\Drivers;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Arr;
-use Origami\Push\Contracts\Device;
-use Origami\Push\PushNotification;
-use Origami\Push\Contracts\Driver;
 use Illuminate\Support\Collection;
+use Origami\Push\Contracts\Device;
+use Origami\Push\Contracts\Driver;
+use Origami\Push\PushNotification;
 use Origami\Push\PushNotificationResponse;
 
 class Fcm extends Driver
 {
     const NOTIFICATION = 'notification';
+
     const DATA_MESSAGE = 'data';
 
     /**
@@ -33,21 +34,18 @@ class Fcm extends Driver
     }
 
     /**
-     * @param  \Illuminate\Support\Collection  $devices
-     * @param  \Origami\Push\PushNotification  $notification
-     *
      * @return array
      */
     public function sendMultiple(Collection $devices, PushNotification $notification)
     {
         $responses = [];
-        $url = 'https://' . $this->getEnvironmentHost();
+        $url = 'https://'.$this->getEnvironmentHost();
         $headers = [
             'Authorization' => 'key='.Arr::get($this->config, 'key'),
-            'Content-Type' => 'application/json'
+            'Content-Type' => 'application/json',
         ];
 
-        foreach ( $devices->chunk(1000) as $devices ) {
+        foreach ($devices->chunk(1000) as $devices) {
             $response = $this->client->post($url, [
                 'headers' => $headers,
                 'json' => $this->getPayload($notification, $devices->all()),
@@ -56,7 +54,7 @@ class Fcm extends Driver
 
             $results = isset($data['results']) ? $data['results'] : [];
 
-            if ( $results ) {
+            if ($results) {
                 foreach ($results as $result) {
                     if (isset($result['error'])) {
                         $responses[] = PushNotificationResponse::error($result, $result['error']);
@@ -71,26 +69,23 @@ class Fcm extends Driver
     }
 
     /**
-     * @param  \Origami\Push\Contracts\Device  $device
-     * @param  \Origami\Push\PushNotification  $notification
-     *
      * @return \Origami\Push\PushNotificationResponse
      */
     public function send(Device $device, PushNotification $notification)
     {
-        $url = 'https://' . $this->getEnvironmentHost();
+        $url = 'https://'.$this->getEnvironmentHost();
 
         $response = $this->client->post($url, [
             'headers' => [
                 'Authorization' => 'key='.Arr::get($this->config, 'key'),
-                'Content-Type' => 'application/json'
+                'Content-Type' => 'application/json',
             ],
             'json' => $this->getPayload($notification, $device),
         ]);
 
         $data = json_decode($response->getBody(), true);
 
-        if ( isset($data['failure']) && ( $data['failure'] > 0 ) ) {
+        if (isset($data['failure']) && ($data['failure'] > 0)) {
             return PushNotificationResponse::error(array_merge(Arr::get($data, 'results.0', []), [
                 'token' => $device->getPushToken(),
             ]), Arr::get($data, 'results.0.error'));
@@ -103,8 +98,8 @@ class Fcm extends Driver
     {
         $payload = [];
 
-        if ( is_array($device) ) {
-            $payload['registration_ids'] = array_map(function($device) {
+        if (is_array($device)) {
+            $payload['registration_ids'] = array_map(function ($device) {
                 return $device->getPushToken();
             }, $device);
         } else {
@@ -113,7 +108,7 @@ class Fcm extends Driver
 
         $type = Arr::get($this->config, 'type', self::NOTIFICATION);
 
-        switch ( $type ) {
+        switch ($type) {
             case self::NOTIFICATION:
                 $payload = array_merge($this->getNotificationPayload($notification), $payload);
                 break;
@@ -121,7 +116,7 @@ class Fcm extends Driver
                 $payload = array_merge($this->getDataMessagePayload($notification), $payload);
                 break;
             default:
-                throw new Exception('Unknown message type - ' . $type);
+                throw new Exception('Unknown message type - '.$type);
         }
 
         return $payload;
@@ -136,8 +131,12 @@ class Fcm extends Driver
                 'sound' => $notification->getSound(),
                 'click_action' => $notification->getExtraValue('action'),
                 'notification_count' => $notification->getBadge(),
-            ])
+            ]),
         ];
+
+        if ($data = $notification->getMeta()) {
+            $payload['data'] = $data;
+        }
 
         return $payload;
     }
@@ -150,8 +149,8 @@ class Fcm extends Driver
                 'badge' => $notification->getBadge(),
                 'sound' => $notification->getSound(),
                 'action_key' => $notification->getExtraValue('action'),
-                'data' => $notification->getMeta() ?: []
-            ]
+                'data' => $notification->getMeta() ?: [],
+            ],
         ];
     }
 
