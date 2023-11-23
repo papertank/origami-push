@@ -3,6 +3,8 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+
+## 4.4.0 - 2023-11-23
 - Added data to FCM notification type.
 
 ## 4.3.0 - 2023-02-16
