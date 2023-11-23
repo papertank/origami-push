@@ -3,6 +3,8 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+
+## 4.3.0 - 2023-02-16
 - Added Laravel 10.x support
 
 ## 4.2.0 - 2022-05-13
