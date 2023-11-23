@@ -3,6 +3,7 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+- Added data to FCM notification type.
 
 ## 4.3.0 - 2023-02-16
 - Added Laravel 10.x support
