@@ -6,7 +6,6 @@ use Illuminate\Support\Arr;
 
 class PushNotification
 {
-
     /**
      * @var string|null
      */
@@ -47,6 +46,8 @@ class PushNotification
      */
     protected $extra = [];
 
+    public bool $isTest = false;
+
     public function __construct($body = '')
     {
         $this->body = $body;
@@ -59,6 +60,7 @@ class PushNotification
 
     /**
      * @alias setBody
+     *
      * @deprecated 4.0
      */
     public function message($body)
@@ -68,6 +70,7 @@ class PushNotification
 
     /**
      * @alias setBadge
+     *
      * @deprecated 4.0
      */
     public function badge($badge)
@@ -77,6 +80,7 @@ class PushNotification
 
     /**
      * @alias setMeta
+     *
      * @deprecated 4.0
      */
     public function meta($badge)
@@ -92,12 +96,10 @@ class PushNotification
         return $this->title;
     }
 
-    /**
-     * @param  string|null  $title
-     */
     public function setTitle(string $title = null)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -109,12 +111,10 @@ class PushNotification
         return $this->subtitle;
     }
 
-    /**
-     * @param  string|null  $subtitle
-     */
     public function setSubtitle(string $subtitle = null)
     {
         $this->subtitle = $subtitle;
+
         return $this;
     }
 
@@ -126,12 +126,10 @@ class PushNotification
         return $this->body;
     }
 
-    /**
-     * @param  string|null  $body
-     */
     public function setBody(string $body = null)
     {
         $this->body = $body;
+
         return $this;
     }
 
@@ -143,12 +141,10 @@ class PushNotification
         return $this->badge;
     }
 
-    /**
-     * @param  int|null  $badge
-     */
     public function setBadge(int $badge = null)
     {
         $this->badge = $badge;
+
         return $this;
     }
 
@@ -160,12 +156,10 @@ class PushNotification
         return $this->sound;
     }
 
-    /**
-     * @param  string|null  $sound
-     */
     public function setSound(string $sound = null)
     {
         $this->sound = $sound;
+
         return $this;
     }
 
@@ -177,12 +171,10 @@ class PushNotification
         return $this->category;
     }
 
-    /**
-     * @param  string|null  $category
-     */
     public function setCategory(string $category = null)
     {
         $this->category = $category;
+
         return $this;
     }
 
@@ -194,12 +186,22 @@ class PushNotification
         return $this->meta;
     }
 
-    /**
-     * @param  array  $meta
-     */
     public function setMeta(array $meta)
     {
         $this->meta = $meta;
+
+        return $this;
+    }
+
+    public function isTest(): bool
+    {
+        return $this->isTest;
+    }
+
+    public function setIsTest(bool $isTest): self
+    {
+        $this->isTest = $isTest;
+
         return $this;
     }
 
@@ -211,19 +213,15 @@ class PushNotification
         return $this->extra;
     }
 
-    /**
-     * @param  array  $extra
-     */
     public function setExtra(array $extra)
     {
         $this->extra = $extra;
+
         return $this;
     }
 
     /**
-     * @param $key
      * @param  null  $fallback
-     *
      * @return mixed|null
      */
     public function getExtraValue($key, $fallback = null)

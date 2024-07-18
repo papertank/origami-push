@@ -12,11 +12,11 @@ Install this package through Composer.
 composer require origami/push
 ```
 
-### Requirements
+## Requirements
 
 This package is designed to work with Laravel >= 6.
 
-### Configuration
+## Configuration
 
 There are some API configuration options that you’ll want to overwrite. First, publish the default configuration.
 
@@ -28,7 +28,7 @@ This will add a new configuration file to: `config/push.php`.
 
 ### APNs
 
-Version 4 of this package uses [edamov/pushok](https://github.com/edamov/pushok) for the APNs transport and logic. You should add the following to your .env file to setup the required config, or see the edamov/pushok readme for Certificate (.pem) options.
+Version 4+ of this package uses [edamov/pushok](https://github.com/edamov/pushok) for the APNs transport and logic. You should add the following to your .env file to setup the required config, or see the edamov/pushok readme for Certificate (.pem) options.
 
 The default private key location is `storage/certificates/apns.p8`
 
@@ -40,6 +40,24 @@ PUSH_APNS_APP_BUNDLE=
 PUSH_APNS_PRIVATE_KEY=
 PUSH_APNS_PRIVATE_KEY_SECRET=
 ```
+
+### FCM
+
+Version 5 of this package uses the [FCM HTTP v1 API](https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages/send) and the [origami/google-auth](https://github.com/papertank/origami-google-auth) package to get oAuth tokens from service account credentials.
+
+First set the project ID from your Firebase console:
+
+```
+PUSH_FCM_PROJECT="your-app-123abc"
+```
+
+Then generate and download your service account JSON file to generate oAuth access tokens.
+
+1. In the Firebase console, open Settings > Service Accounts.
+2. Click Generate New Private Key, then confirm by clicking Generate Key.
+3. Securely store the JSON file containing the key at: `storage/app/google-auth/service-account-credentials.json`
+
+If you want to change the loaded path you can set the `GOOGLE_AUTH_SERVICE_CREDENTIALS` environment variable, or to change other settings you can publish the google-auth config: `php artisan vendor:publish --provider="Origami\GoogleAuth\GoogleAuthServiceProvider"`
 
 ## Usage
 
@@ -155,11 +173,8 @@ app('Origami\Push\PushManager')
         ->send($device, $push);
 ```
 
-## TODO
-
-- Improve readme / docs
-
 ## Versions
+ - v5.* - Version 5 is a breaking change that updates the config and drivers for fcm to use the new HTTP v1 API and service account credentials / oAuth.
  - v4.* - Version 4 is a breaking change that updates the config and drivers for apns and fcm.
  - v3.* - Version 3 bumps the Laravel support to include 6, 7 and 8 projects. Laravel 5.x dropped.
  - v2.* - Version 2 is a rewrite of the package to work with Laravel 5.3 notifications or standalone

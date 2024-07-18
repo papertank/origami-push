@@ -1,4 +1,5 @@
 <?php
+
 return [
 
     'enabled' => env('PUSH_ENABLED', true),
@@ -15,8 +16,9 @@ return [
     ],
 
     'fcm' => [
-        'key' => env('PUSH_FCM_KEY', ''),
-        'type' => \Origami\Push\Drivers\Fcm::NOTIFICATION,
+        'project_id' => env('PUSH_FCM_PROJECT'),
+        /** Options: android, apns, webpush */
+        'platforms' => ['android', 'apns'],
     ],
 
 ];
