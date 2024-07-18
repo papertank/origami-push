@@ -3,10 +3,11 @@
 namespace Origami\Push;
 
 use Exception;
-use Origami\Push\Drivers\Fcm;
-use Origami\Push\Drivers\Apns;
 use Illuminate\Support\Manager;
+use Origami\GoogleAuth\GoogleAuth;
+use Origami\Push\Drivers\Apns;
 use Origami\Push\Drivers\Apns\ClientFactory;
+use Origami\Push\Drivers\Fcm;
 
 class PushManager extends Manager
 {
@@ -20,8 +21,8 @@ class PushManager extends Manager
     protected function createFcmDriver()
     {
         return new Fcm(
-            $this->container->make(\GuzzleHttp\Client::class),
-            $this->container['config']['push.fcm']
+            $this->container['config']['push.fcm'],
+            $this->container->make(GoogleAuth::class)
         );
     }
 
@@ -29,6 +30,7 @@ class PushManager extends Manager
      * Get the default driver name.
      *
      * @return string
+     *
      * @throws \Exception
      */
     public function getDefaultDriver()

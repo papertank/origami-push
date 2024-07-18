@@ -3,6 +3,9 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+- Updated Fcm driver to use new FCM HTTP v1 API (old API no longer supported).
+- Added PUSH_FCM_PROJECT (required) environment variable for FCM.
+- Added origami/google-auth package for Google service credentials oAuth handling (Guzzle client and middleware).
 
 ## 4.4.0 - 2023-11-23
 - Added data to FCM notification type.
