@@ -107,11 +107,12 @@ class Fcm extends Driver
 
     protected function setPayloadAndroid(PushNotification $notification, array $payload)
     {
-        if ( $clickAction = $notification->getExtraValue('action') ) {
+        if ($clickAction = $notification->getExtraValue('action')) {
             Arr::set($payload, 'android.notification.click_action', $clickAction);
         }
         if ($notification->getBadge() !== null) {
-            Arr::set($payload, 'android.notification.notification_count', (int) $notification->getBadge());
+            $increments = Arr::get($this->config, 'options.android.notification_count_increments');
+            Arr::set($payload, 'android.notification.notification_count', $increments ? 1 : (int) $notification->getBadge());
         }
         if ($sound = $notification->getSound()) {
             Arr::set($payload, 'android.notification.sound', $sound);

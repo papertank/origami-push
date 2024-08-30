@@ -19,6 +19,16 @@ return [
         'project_id' => env('PUSH_FCM_PROJECT'),
         /** Options: android, apns, webpush */
         'platforms' => ['android', 'apns'],
+        'options' => [
+            'android' => [
+                /**
+                 * If enabled, setBadge will set the payload's android.notification.notification_count to 1.
+                 * This is because the Android notification dot auto-increments the badge by the given number.
+                 * See: https://developer.android.com/develop/ui/views/notifications/badges
+                 */
+                'notification_count_increments' => true,
+            ],
+        ],
     ],
 
 ];
