@@ -3,6 +3,7 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+- Added new options config (fcm.options.android.notification_count_increments) for FCM to prevent setBadge from incrementing wrongly (see #1) - (PR #2)
 
 ## 5.0.0 - 2024-07-18
 - Updated Fcm driver to use new FCM HTTP v1 API (old API no longer supported).
