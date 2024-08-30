@@ -2,16 +2,14 @@
 
 namespace Origami\Push;
 
-use Illuminate\Support\Arr;
-use Origami\Push\Contracts\Device;
-use Origami\Push\PushNotification;
-use Illuminate\Support\Collection;
-use Origami\Push\Contracts\Driver;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Notifications\Events\NotificationFailed;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use Origami\Push\Contracts\Device;
+use Origami\Push\Contracts\Driver;
 
 class PushChannel
 {
@@ -41,7 +39,6 @@ class PushChannel
      * Send the given notification.
      *
      * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
      * @return void
      */
     public function send($notifiable, Notification $notification)
@@ -105,7 +102,7 @@ class PushChannel
         foreach ($responses as $response) {
             if ($response->isError()) {
                 $this->events->dispatch(new NotificationFailed($notifiable, $notification, static::class, array_merge($response->getData(), [
-                    'error' => $response->getError()
+                    'error' => $response->getError(),
                 ])));
             }
         }
@@ -127,8 +124,6 @@ class PushChannel
     }
 
     /**
-     * @param $notifiable
-     *
      * @return \Illuminate\Support\Collection
      */
     protected function getDevices($notifiable)
@@ -144,7 +139,7 @@ class PushChannel
         }
 
         return $devices->filter(function ($device) {
-            return ($device instanceof \Origami\Push\Contracts\Device);
+            return $device instanceof \Origami\Push\Contracts\Device;
         });
     }
 }
