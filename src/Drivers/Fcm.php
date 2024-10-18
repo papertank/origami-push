@@ -91,7 +91,13 @@ class Fcm extends Driver
             ]), Arr::get($data, 'results.0.error'));
         }
 
-        return PushNotificationResponse::success(Arr::get($data, 'results.0'));
+        if ( isset($data['error']) && $data['error'] ) {
+            return PushNotificationResponse::error(array_merge($data, [
+                'token' => $device->getPushToken(),
+            ]), $data['error']);
+        }
+
+        return PushNotificationResponse::success(Arr::get($data, 'results.0', []));
     }
 
     protected function getPayload(PushNotification $notification, $device)
