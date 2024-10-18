@@ -4,8 +4,11 @@ All notable changes will be documented in this file.
 
 ## Unreleased
 
-## 4.5.0 - 2024-10-18
+## 4.6.0 - 2024-10-18
 - Updated FCM to handle new error response.
+
+## 4.5.0 - 2024-06-01
+- Added Laravel 11.x support.
 
 ## 4.4.0 - 2023-11-23
 - Added data to FCM notification type.
