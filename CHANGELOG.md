@@ -3,6 +3,8 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+
+## 4.5.0 - 2024-10-18
 - Updated FCM to handle new error response.
 
 ## 4.4.0 - 2023-11-23
