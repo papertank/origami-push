@@ -3,6 +3,8 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+
+## 6.0.0 - 2025-09-10
 - Added Laravel 12.x compatibility. Removed support for Laravel < 10.x and PHP < 8.1.
 
 ## 5.1.0 - 2024-08-30
