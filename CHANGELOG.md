@@ -3,6 +3,7 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+- Updated origami/google-auth to 0.2.0.
 
 ## 6.0.0 - 2025-09-10
 - Added Laravel 12.x compatibility. Removed support for Laravel < 10.x and PHP < 8.1.
