@@ -3,6 +3,7 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+- Added Laravel 12.x compatibility. Removed support for Laravel < 10.x and PHP < 8.1.
 
 ## 5.1.0 - 2024-08-30
 - Added new options config (fcm.options.android.notification_count_increments) for FCM to prevent setBadge from incrementing wrongly (see #1) - (PR #2)
