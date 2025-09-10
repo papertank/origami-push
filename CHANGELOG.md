@@ -3,6 +3,8 @@
 All notable changes will be documented in this file.
 
 ## Unreleased
+
+## 6.0.1 - 2025-09-10
 - Updated origami/google-auth to 0.2.0.
 
 ## 6.0.0 - 2025-09-10
