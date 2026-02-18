@@ -4,6 +4,9 @@ All notable changes will be documented in this file.
 
 ## Unreleased
 
+## 6.1.0 - 2026-02-18
+- Updated origami/google-auth to 0.3.0 (for firebase/php-jwt ^7.0).
+
 ## 6.0.1 - 2025-09-10
 - Updated origami/google-auth to 0.2.0.
 
